@@ -2,6 +2,14 @@
     ViewBag.Title = "Home Page";
 }
 
+<style>
+    .table-head{
+        background-color: #454d55;
+        color: white;
+        text-align: center;
+    }
+</style>
+
 <div class="align-items-center">
 
     <form action="Index" method="post">
@@ -19,5 +27,44 @@
 
         </div>
 
-    </form>
-</div>
+
+
+        <div class="col">
+
+            <table class="table">
+                <thead>
+                    <tr>
+
+                        <!--Headers-->
+                        <th scope="col" class="table-head" style="width: 55%">
+                            URL
+                        </th>
+                        <th scope="col" class="table-head" style="width: 15%">
+                            MID Response time
+                        </th>
+                        <th scope="col" class="table-head" style="text-wrap: normal; width: 15%">
+                            MIN Response time
+                        </th>
+                        <th scope="col" class="table-head" style="text-wrap: normal; width: 15%">
+                            MAX Response time
+                        </th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in ViewBag.siteMap)
+                    {
+                        <tr>
+                            <th scope="row">@item.url</th>
+                            <th scope="row">@item.requestTime</th>
+                        </tr>
+                    }
+
+                    </tbody>
+                </table>
+
+            </div>
+
+        </form>
+    </div>

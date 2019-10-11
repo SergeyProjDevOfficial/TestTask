@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Xml.Linq;
 
 namespace TestTask.Models
 {
-    public class SiteMapAnalyser
+    public class UrlValidator
     {
-        
         public bool IsUrlValid(string url)
         {
             try
@@ -21,12 +18,5 @@ namespace TestTask.Models
                 return false;
             }
         }
-
-
-        public List<string> GetSiteMap(string url)
-        {
-            new NotImplementedException();
-        }
-
     }
 }

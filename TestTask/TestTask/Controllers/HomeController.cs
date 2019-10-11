@@ -26,17 +26,19 @@ namespace TestTask.Controllers
         public ActionResult Index(string url)
         {
             ViewBag.url = url;
+            ViewBag.siteMap = "";
 
-            SiteMapAnalyser sma = new SiteMapAnalyser();
+            SiteMapGetter SMgetter = new SiteMapGetter();
+            UrlValidator urlValidator = new UrlValidator();
 
-            if (!sma.IsUrlValid(url)){
+            if (!urlValidator.IsUrlValid(url)){
                 ViewBag.error = "URL is invalid!";
                 return View();
             }
 
-            ViewBag.siteMap = sma.GetSiteMap(url);
-            return View();
+            ViewBag.siteMap = SMgetter.GetSiteMap(url);
 
+            return View();
         }
     }
 }
