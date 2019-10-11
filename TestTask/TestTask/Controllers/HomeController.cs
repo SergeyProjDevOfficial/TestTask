@@ -3,28 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TestTask.Models;
 
 namespace TestTask.Controllers
 {
     public class HomeController : Controller
     {
+        // ViewBag.url - string url
+        // ViewBag.error - string if url is invalid
+        // ViewBag.siteMap - List<string>
+
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.url = "";
+            ViewBag.error = "";
+            ViewBag.siteMap = "";
 
             return View();
         }
 
-        public ActionResult Contact()
+        [HttpPost]
+        public ActionResult Index(string url)
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.url = url;
 
+            SiteMapAnalyser sma = new SiteMapAnalyser();
+
+            if (!sma.IsUrlValid(url)){
+                ViewBag.error = "URL is invalid!";
+                return View();
+            }
+
+            ViewBag.siteMap = sma.GetSiteMap(url);
             return View();
+
         }
     }
 }
