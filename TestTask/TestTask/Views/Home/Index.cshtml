@@ -53,15 +53,18 @@
                 </thead>
                 <tbody>
 
+                    <!--Data output-->
                     @foreach (var item in ViewBag.siteMap)
                     {
                         <tr>
                             <th scope="row">@item.url</th>
-                            <th scope="row">@item.requestTime</th>
+                            <th scope="row">@item.requestTimeMid</th>
+                            <th scope="row">@item.requestTimeMin</th>
+                            <th scope="row">@item.requestTimeMax</th>
                         </tr>
                     }
 
-                    </tbody>
+                </tbody>
                 </table>
 
             </div>
