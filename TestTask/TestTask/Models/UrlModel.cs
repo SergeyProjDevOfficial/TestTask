@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Web;
 
 namespace TestTask.Models
 {
@@ -33,7 +32,7 @@ namespace TestTask.Models
         private List<TimeSpan> GetRequestsTimes(string url)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            System.Diagnostics.Stopwatch timer = new Stopwatch();
+            Stopwatch timer = new Stopwatch();
             List<TimeSpan> times = new List<TimeSpan>();
 
             for (int i = 0; i < 10; i++)
@@ -45,16 +44,14 @@ namespace TestTask.Models
                     HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                     response.Close();
                 }
-                catch
+                catch // no respond
                 {
                     times.Add(TimeSpan.Parse("00:00:00"));
                     return times;
                 }
-                
-                
 
                 timer.Stop();
-                
+
                 times.Add(timer.Elapsed);
             }
 
@@ -65,13 +62,19 @@ namespace TestTask.Models
         private string GetMin(List<TimeSpan> times)
         {
             string time = times.Min<TimeSpan>().ToString();
-            if (time == "00:00:00") time = "No Respond";
+            if (time == "00:00:00")
+                time = "No Respond";
+            else
+                time = time.Substring(time.LastIndexOf(':')+2);
             return time;
         }
         private string GetMax(List<TimeSpan> times)
         {
             string time = times.Max<TimeSpan>().ToString();
-            if (time == "00:00:00") time = "No Respond";
+            if (time == "00:00:00") time = 
+                    "No Respond";
+            else
+                time = time.Substring(time.LastIndexOf(':')+2);
             return time;
         }
         private string GetMid(List<TimeSpan> times)
@@ -81,7 +84,10 @@ namespace TestTask.Models
 
             string time = new TimeSpan(longAverageTicks).ToString();
 
-            if (time == "00:00:00") time = "No Respond";
+            if (time == "00:00:00") 
+                time = "No Respond";
+            else
+                time = time.Substring(time.LastIndexOf(':')+2);
             return time;
         }
     }

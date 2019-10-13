@@ -2,21 +2,101 @@
     ViewBag.Title = "Home Page";
 }
 
+
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+
+
 <style>
-    .table-head{
+
+    .table-head {
         background-color: #454d55;
         color: white;
         text-align: center;
     }
+
+    .fixed_header {
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .fixed_header tbody {
+        display: block;
+        width: 100%;
+        overflow: auto;
+        height: 45vh;
+    }
+
+    .fixed_header thead tr {
+        display: block;
+    }
+
+    .fixed_header th, .fixed_header td {
+        width: 100%;
+    }
+
 </style>
+
+
 
 <div class="align-items-center">
 
     <form action="Index" method="post">
 
+        <!--Charts-->
         <div class="col">
 
-            <!-- URL input -->
+            <div id="chart1" style="height: 30vh; visibility: @if (ViewBag.url == "") { <text>hidden</text> } else { <text>visible</text>} "></div>
+
+            <!-- you need to include the shieldui css and js assets in order for the charts to work -->
+            <link rel="stylesheet" type="text/css" href="https://www.shieldui.com/shared/components/latest/css/light-bootstrap/all.min.css" />
+            <script type="text/javascript" src="https://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
+
+            <script type="text/javascript">
+            
+                jQuery(function ($) {
+
+                    var data1 = [];
+                    var values1 = [];
+
+                    @foreach (var item in ViewBag.siteMap)
+                    {
+                        if (item.requestTimeMid != "No Respond")
+                        {
+                            <text>data1.push(parseFloat(@item.requestTimeMid));</text>
+                        }
+                    }
+
+                    $("#chart1").shieldChart({
+                    primaryHeader: {
+                        text: "Response chart"
+                        },
+                        exportOptions: {
+                        image: false,
+                            print: false
+                        },
+                        axisX: {
+                        categoricalValues: values1
+                        },
+                        dataSeries: [{
+                        seriesType: "bar",
+                            collectionAlias: "Time of response",
+                            data: data1
+                        }]
+                    });
+
+                });
+
+            </script>
+
+
+        </div>
+
+
+        <!--URL input-->
+        <div class="col" style="height: 10vh;">
+
             <input type="text" class="form-control" placeholder="URL" name="url" value="@ViewBag.url" style="float: left; width: 85%">
 
             <!-- Submit -->
@@ -28,27 +108,27 @@
         </div>
 
 
+        <!--Results Table-->
+        <div class="col" style="margin-top: 20px; visibility: @if (ViewBag.url == "") { <text>hidden</text> } else { <text>visible</text>}">
 
-        <div class="col">
-
-            <table class="table">
+            <table class="table, fixed_header">
                 <thead>
-                    <tr>
+                    <tr class="table-head">
 
                         <!--Headers-->
-                        <th scope="col" class="table-head" style="width: 55%">
+                        <th scope="col" style="text-align: center; width: 40vw">
                             URL
                         </th>
-                        <th scope="col" class="table-head" style="width: 15%">
+                        <th scope="col" style="text-align: center; width: 20vw">
                             MID Response time
                         </th>
-                        <th scope="col" class="table-head" style="text-wrap: normal; width: 15%">
+                        <th scope="col" style="text-align: center; text-wrap: normal; width: 20vw">
                             MIN Response time
                         </th>
-                        <th scope="col" class="table-head" style="text-wrap: normal; width: 15%">
+                        <th scope="col" style="text-align: center; text-wrap: normal; width: 20vw">
                             MAX Response time
                         </th>
-                        
+
                     </tr>
                 </thead>
                 <tbody>
@@ -57,17 +137,17 @@
                     @foreach (var item in ViewBag.siteMap)
                     {
                         <tr>
-                            <th scope="row">@item.url</th>
-                            <th scope="row">@item.requestTimeMid</th>
-                            <th scope="row">@item.requestTimeMin</th>
-                            <th scope="row">@item.requestTimeMax</th>
+                            <th scope="row" style="text-align: center; width: 40vw">@item.url</th>
+                            <th scope="row" style="text-align: center; width: 20vw">@item.requestTimeMid</th>
+                            <th scope="row" style="text-align: center; width: 20vw">@item.requestTimeMin</th>
+                            <th scope="row" style="text-align: center; width: 20vw">@item.requestTimeMax</th>
                         </tr>
                     }
 
                 </tbody>
-                </table>
+            </table>
 
-            </div>
+        </div>
 
-        </form>
-    </div>
+    </form>
+</div>
