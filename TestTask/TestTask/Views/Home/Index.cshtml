@@ -6,8 +6,6 @@
 
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 
-
-
 <style>
 
     .table-head {
@@ -44,9 +42,11 @@
 
     <form action="Index" method="post">
 
+
         <!--Charts-->
         <div class="col">
 
+            <!--chart is visible if url was calculated-->
             <div id="chart1" style="height: 30vh; visibility: @if (ViewBag.url == "") { <text>hidden</text> } else { <text>visible</text>} "></div>
 
             <!-- you need to include the shieldui css and js assets in order for the charts to work -->
@@ -54,7 +54,7 @@
             <script type="text/javascript" src="https://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
 
             <script type="text/javascript">
-            
+
                 jQuery(function ($) {
 
                     var data1 = [];
@@ -95,20 +95,21 @@
 
 
         <!--URL input-->
-        <div class="col" style="height: 10vh;">
+        <div class="col">
 
             <input type="text" class="form-control" placeholder="URL" name="url" value="@ViewBag.url" style="float: left; width: 85%">
 
-            <!-- Submit -->
+            <!--Submit-->
             <button type="submit" class="btn btn-success" style="float: right; width: 15%">Start</button>
 
-            <!-- if URL is not valid => show info about it -->
+            <!--if URL is not valid => show info about it-->
             <h4 class="text-danger">@ViewBag.error</h4>
+
 
         </div>
 
 
-        <!--Results Table-->
+        <!--Results Table (visible if url calculated)-->
         <div class="col" style="margin-top: 20px; visibility: @if (ViewBag.url == "") { <text>hidden</text> } else { <text>visible</text>}">
 
             <table class="table, fixed_header">
@@ -148,6 +149,23 @@
             </table>
 
         </div>
+
+
+        <!--History loader (visible if history exists)-->
+        <div class="btn-group dropup">
+            <button type="button" style="margin-top: 10px" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                History
+            </button>
+            <div class="dropdown-menu">
+
+                @foreach (var item in ViewBag.scans)
+                {
+                    <button type="submit" class="dropdown-item">@item.ScanningUrl - @item.Date</button>
+                }
+
+            </div>
+        </div>
+
 
     </form>
 </div>
