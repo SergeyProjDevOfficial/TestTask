@@ -38,6 +38,7 @@
         .fixed_header th, .fixed_header td {
             width: 100%;
         }
+
     </style>
 
 </head>
@@ -61,12 +62,15 @@
                     var data1 = [];
                     var values1 = [];
 
+                    @{ var id = 1;}
                     @foreach (var item in ViewBag.siteMap)
                     {
                         if (item.MidResponseTime != "No Respond")
                         {
                             <text>data1.push(parseFloat(@item.MidResponseTime));</text>
-                        }
+                            <text>values1.push(parseFloat(@id));</text>
+                        } 
+                        { id++;}
                     }
 
                     $("#chart1").shieldChart({
@@ -78,7 +82,7 @@
                             print: false
                         },
                         axisX: {
-                        categoricalValues: values1
+                            categoricalValues: values1
                         },
                         dataSeries: [{
                         seriesType: "bar",
@@ -94,17 +98,20 @@
         </div>
 
         <!--Address-->
-        <input type="text" class="form-control" placeholder="URL" name="url" value="@ViewData["url-time"]" readonly="readonly" style="float: left; width: 100%; text-align: center; font-size: 40px">
+        <input type="text" class="form-control" placeholder="URL" name="url" value="@ViewData["url-time"]" readonly="readonly" style="float: left; width: 100%; text-align: center; font-size: 30px">
 
         <!--Results Table (visible if url calculated)-->
-        <div class="col" style="margin-top: 20px;">
+        <div class="col" style="margin-top: 50px;">
 
             <table class="table, fixed_header">
                 <thead>
                     <tr class="table-head">
 
                         <!--Headers-->
-                        <th scope="col" style="text-align: center; width: 40vw">
+                        <th scope="col" style="text-align: center; width: 5vw">
+                            №
+                        </th>
+                        <th scope="col" style="text-align: center; width: 35vw">
                             URL
                         </th>
                         <th scope="col" style="text-align: center; width: 20vw">
@@ -122,14 +129,17 @@
                 <tbody>
 
                     <!--Data output-->
+                    @{ var counter = 1; }
                     @foreach (var item in ViewBag.siteMap)
                     {
                         <tr>
-                            <th scope="row" style="text-align: center; width: 40vw">@item.SubUrl</th>
+                            <th scope="row" style="text-align: center; width: 5vw">@counter</th>
+                            <th scope="row" style="text-align: center; width: 35vw">@item.SubUrl</th>
                             <th scope="row" style="text-align: center; width: 20vw">@item.MidResponseTime</th>
                             <th scope="row" style="text-align: center; width: 20vw">@item.MinResponseTime</th>
                             <th scope="row" style="text-align: center; width: 20vw">@item.MaxResponseTime</th>
                         </tr>
+                        { counter++; }
                     }
 
                 </tbody>

@@ -5,6 +5,12 @@
 
 
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script>
+    function Loading(this1) {
+        this1.innerHTML = '<i class="fa fa-spinner fa-spin, form"></i> Loading...';
+    }
+</script>
+
 
 <style>
 
@@ -59,12 +65,15 @@
                     var data1 = [];
                     var values1 = [];
 
+                    @{ var id = 1;}
                     @foreach (var item in ViewBag.siteMap)
                     {
                         if (item.requestTimeMid != "No Respond")
                         {
                             <text>data1.push(parseFloat(@item.requestTimeMid));</text>
+                            <text>values1.push(parseFloat(@id));</text>
                         }
+                        { id++; }
                     }
 
                     $("#chart1").shieldChart({
@@ -76,7 +85,7 @@
                             print: false
                         },
                         axisX: {
-                        categoricalValues: values1
+                            categoricalValues: values1
                         },
                         dataSeries: [{
                         seriesType: "bar",
@@ -97,9 +106,9 @@
         <div class="col">
 
             <input type="text" class="form-control" placeholder="URL" name="url" value="@ViewBag.url" style="float: left; width: 85%">
-
+            
             <!--Submit-->
-            <button type="submit" class="btn btn-success" style="float: right; width: 15%">Start</button>
+            <button type="submit" class="btn btn-success" style="float: right; width: 15%" onclick="Loading(this);">Start</button>
 
             <!--if URL is not valid => show info about it-->
             <h4 class="text-danger">@ViewBag.error</h4>
@@ -109,14 +118,17 @@
 
 
         <!--Results Table (visible if url calculated)-->
-        <div class="col" style="margin-top: 20px; visibility: @if (ViewBag.url == "") { <text>hidden</text> } else { <text>visible</text>}">
+        <div class="col" style="margin-top: 50px; visibility: @if (ViewBag.url == "") { <text>hidden</text> } else { <text>visible</text>}">
 
             <table class="table, fixed_header">
                 <thead>
                     <tr class="table-head">
 
                         <!--Headers-->
-                        <th scope="col" style="text-align: center; width: 40vw">
+                        <th scope="col" style="text-align: center; width: 5vw">
+                            №
+                        </th>
+                        <th scope="col" style="text-align: center; width: 35vw">
                             URL
                         </th>
                         <th scope="col" style="text-align: center; width: 20vw">
@@ -134,14 +146,17 @@
                 <tbody>
 
                     <!--Data output-->
+                    @{ var counter = 1; }
                     @foreach (var item in ViewBag.siteMap)
                     {
                         <tr>
-                            <th scope="row" style="text-align: center; width: 40vw">@item.url</th>
+                            <th scope="row" style="text-align: center; width: 5vw">@counter</th>
+                            <th scope="row" style="text-align: center; width: 35vw">@item.url</th>
                             <th scope="row" style="text-align: center; width: 20vw">@item.requestTimeMid</th>
                             <th scope="row" style="text-align: center; width: 20vw">@item.requestTimeMin</th>
                             <th scope="row" style="text-align: center; width: 20vw">@item.requestTimeMax</th>
                         </tr>
+                        {counter++;}
                     }
 
                 </tbody>
@@ -162,11 +177,14 @@
 
                 @foreach (var item in ViewBag.scans)
                 {
-                    <button type="submit" value="@item.ScanningUrl - @item.Date" name="history" style="width:500px" class="dropdown-item, form-control">@item.ScanningUrl - @item.Date</button>
+                    <button type="submit" value="@item.ScanningUrl - @item.Date" name="history" style="width:500px" class="dropdown-item, form-control">
+                        @item.ScanningUrl - @item.Date
+                    </button>
                 }
 
             </div>
         </div>
+        
 
     </form>
 

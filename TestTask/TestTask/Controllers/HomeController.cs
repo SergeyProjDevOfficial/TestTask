@@ -36,7 +36,6 @@ namespace TestTask.Controllers
         {
             ViewBag.url = "";
             ViewBag.siteMap = "";
-            ViewBag.scans = "";
 
             SiteMapGetter SMgetter = new SiteMapGetter();
             UrlValidator UrlValidator = new UrlValidator();
@@ -44,6 +43,7 @@ namespace TestTask.Controllers
 
             if (!UrlValidator.IsUrlValid(url)){
                 ViewBag.error = "URL is invalid!";
+                ViewBag.scans = Db.GetScans();
                 return View();
             }
 
@@ -57,21 +57,19 @@ namespace TestTask.Controllers
             Db.Add(url, siteMap);
             ViewBag.scans = Db.GetScans();
 
-
-
             return View();
         }
 
         [HttpPost]
-        public ActionResult History(string history)
+        public ActionResult History(string history) 
         {
             ViewData["url-time"] = history;
 
-            string url = history.Substring(0, history.IndexOf('-') - 1);
-            string time = history.Substring( history.IndexOf('-') + 2);
+            string historyUrl = history.Substring(0, history.IndexOf(" - "));
+            string historyTime = history.Substring( history.IndexOf(" - ") + 3);
 
             DbHelper Db = new DbHelper();
-            int index = Db.GetScanNumber(url, time);
+            int index = Db.GetScanNumber(historyUrl, historyTime);
             ViewBag.siteMap = Db.GetSiteMap(index);
 
             return View();
