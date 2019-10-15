@@ -140,11 +140,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Core\DbHelper.cs" />
     <Compile Include="Models\DbInitializer.cs" />
     <Compile Include="Models\ScanResult.cs" />
     <Compile Include="Models\Scan.cs" />
     <Compile Include="Models\ScanContext.cs" />
-    <Compile Include="Models\UrlModel.cs" />
+    <Compile Include="Models\Core\UrlModel.cs" />
     <Compile Include="Models\Core\SiteMapGetter.cs" />
     <Compile Include="Models\Core\UrlValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -184,6 +185,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\History.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

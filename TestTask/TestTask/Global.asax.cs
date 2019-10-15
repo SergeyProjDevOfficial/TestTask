@@ -10,7 +10,7 @@ namespace TestTask
     {
         protected void Application_Start()
         {
-            Database.SetInitializer(new DbInitializer());
+            //Database.SetInitializer(new DbInitializer());
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

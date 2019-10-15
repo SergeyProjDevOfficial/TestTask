@@ -42,7 +42,6 @@
 
     <form action="Index" method="post">
 
-
         <!--Charts-->
         <div class="col">
 
@@ -150,6 +149,9 @@
 
         </div>
 
+    </form>
+
+    <form action="History" method="post">
 
         <!--History loader (visible if history exists)-->
         <div class="btn-group dropup">
@@ -160,12 +162,13 @@
 
                 @foreach (var item in ViewBag.scans)
                 {
-                    <button type="submit" class="dropdown-item">@item.ScanningUrl - @item.Date</button>
+                    <button type="submit" value="@item.ScanningUrl - @item.Date" name="history" style="width:500px" class="dropdown-item, form-control">@item.ScanningUrl - @item.Date</button>
                 }
 
             </div>
         </div>
 
-
     </form>
+
+
 </div>
